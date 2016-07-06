@@ -41,22 +41,25 @@ function islandora_datastream_blocks_html_teaser_theme() {
  */
 function _insert_break_if_none($content, $block_delta) {
   $retval = $content;
-  if (strpos('<!--break-->', $content) < 1) {
+  if (strpos($content, '<!--break-->') < 1) {
     preg_match_all('/<\/p>/', $content, $matches, PREG_OFFSET_CAPTURE);
     $pre = (isset($matches[0][1][1])) ? $matches[0][1][1] :
       (isset($matches[0][2][1])) ? $matches[0][2][1] :
       (isset($matches[0][3][1])) ? $matches[0][3][1] : strpos($content, "</p>");
-    if ($pre <> 4) {
-      $link_id = $block_delta.'_more';
-      $div_id = $block_delta.'_collapse';
-      $content_before_break = substr($content, 0, $pre);
-      $content_after_break = substr($content, $pre);
-      $retval = theme('block_with_teaser', array('content_before_break'=> $content_before_break,
-        'content_after_break' => $content_after_break,
-        'div_id' => $div_id,
-        'link_id' => $link_id,
-        ));
-    }
+  }
+  else {
+    $pre = strpos($content, '<!--break-->');
+  }
+  if ($pre <> 4) {
+    $link_id = $block_delta.'_more';
+    $div_id = $block_delta.'_collapse';
+    $content_before_break = substr($content, 0, $pre);
+    $content_after_break = substr($content, $pre);
+    $retval = theme('block_with_teaser', array('content_before_break'=> $content_before_break,
+      'content_after_break' => $content_after_break,
+      'div_id' => $div_id,
+      'link_id' => $link_id,
+      ));
   }
   return $retval;
 }
