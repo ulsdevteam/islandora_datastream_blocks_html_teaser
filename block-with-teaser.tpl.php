@@ -44,7 +44,8 @@
         </ul>
       </div>
       <div id="<?php print $div_id; ?>" style="display:none">
-        <a href="#<?php print $link_id; ?>" id="<?php print $link_id . "_less"; ?>">Less...</a>
+        <a href="#<?php print $link_id; ?>_less" id="<?php print $link_id . "_less"; ?>">Less...</a>
+        <a name="<?php print $link_id; ?>_less"></a>
         <?php print $content_after_break; ?>
     </div>
     <!-- block-with-teaser -->
