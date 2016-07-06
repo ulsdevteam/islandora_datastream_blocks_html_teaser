@@ -15,37 +15,24 @@
 ?>
     <script type="text/javascript">
       jQuery(document).ready(function() {
-      jQuery("#<?php print $link_id; ?>, #<?php print $link_id; ?>_less").click(function() {
+      jQuery("#<?php print $link_id; ?>").click(function() {
         jQuery("#<?php print $div_id; ?>").toggle();
-        if (jQuery("#<?php print $link_id; ?>").html() !== "More...") {
-          jQuery("#<?php print $link_id; ?>_less").hide();
-          jQuery("#<?php print $link_id; ?>").show();
-          jQuery("#<?php print $link_id; ?>").html("More...");
+        if (jQuery("#<?php print $link_id; ?>").html() !== "Read more...") {
+          jQuery("#<?php print $link_id; ?>").html("Read more...");
         } else {
-          jQuery("#<?php print $link_id; ?>_less").show();
-          jQuery("#<?php print $link_id; ?>").hide();
-          jQuery("#<?php print $link_id; ?>").html("Less...");
+          jQuery("#<?php print $link_id; ?>").html("Show less...");
         }
       });
     });
     </script>
-    <a name="<?php print $link_id; ?>"></a>
     <?php print $content_before_break; ?>
     <?php
     /* Since content_before_break will contain an open <div> and the
      * content_after_break contains the </div>, this section between is indented.
      */ ?>
     <!--break-->
-      <div class="link-wrapper">
-        <ul class="links inline">
-          <li class="node-readmore">
-            <a href="#<?php print $link_id; ?>" id="<?php print $link_id; ?>">More...</a>
-          </li>
-        </ul>
-      </div>
+      <span id="<?php print $link_id; ?>" class="span-like-link">Read more...</span>
       <div id="<?php print $div_id; ?>" style="display:none">
-        <a href="#<?php print $link_id; ?>_less" id="<?php print $link_id . "_less"; ?>">Less...</a>
-        <a name="<?php print $link_id; ?>_less"></a>
         <?php print $content_after_break; ?>
     </div>
     <!-- block-with-teaser -->

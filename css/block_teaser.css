@@ -1,0 +1,8 @@
+.span-like-link {
+  font-size: smaller;
+  text-decoration: underline;
+  color: #0071B3;
+  cursor: pointer;
+  float: right;
+  padding: 0px;
+}
