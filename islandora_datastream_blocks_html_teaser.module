@@ -58,4 +58,3 @@ function _insert_break_if_none($content, $block_delta) {
   }
   return $retval;
 }
-
