@@ -1,11 +1,5 @@
 <?php
 
-define('DRUPAL_BREAK', '<!--break-->');
-
-// ideas ... maybe have an admin setting checkbox that allows the content to
-// automatically insert <!--break--> only if that option is checked.
-
-
 /**
  * Implements hook_block_view_alter().
  */
@@ -15,8 +9,6 @@ function islandora_datastream_blocks_html_teaser_block_view_alter(&$data, $block
     $item = menu_get_item();
     $block_id = substr($block->delta, 4);
     if (isset($item['page_arguments'][0]) && is_object($item['page_arguments'][0]) && (get_class($item['page_arguments'][0]) == 'IslandoraFedoraObject')) {
-      $path = drupal_get_path('module', 'islandora_datastream_blocks_html_teaser');
-      drupal_add_css("$path/css/block_teaser.css");
       $fedora_object = $item['page_arguments'][0];
       // get the matching datastream - to protect against this datastream being the wrong mimetype
       if (is_object($fedora_object) && (isset($fedora_object[$block_id])) && ($fedora_object[$block_id]->mimetype == 'text/html') ) {
@@ -27,38 +19,43 @@ function islandora_datastream_blocks_html_teaser_block_view_alter(&$data, $block
 }
 
 /**
- * Helper function to insert a DRUPAL_BREAK comment into a block that has none yet
+ * Implements hook_theme().
+ */
+function islandora_datastream_blocks_html_teaser_theme() {
+  return array(
+    // Default object template.
+    'block_with_teaser' => array(
+      'template' => 'block-with-teaser',
+      'variables' => array('content_before_break'=> NULL,
+        'content_after_break' => NULL,
+        'div_id' => '',
+        'link_id' => '',
+      )
+    ));
+}
+
+/**
+ * Helper function to insert a <!--break--> comment into a block that has none yet
  */
 function _insert_break_if_none($content, $block_delta) {
   $retval = $content;
-  if (strpos(DRUPAL_BREAK, $content) < 1) {
-    $pre = strpos($content, "</p>") + 4;
+  if (strpos('<!--break-->', $content) < 1) {
     preg_match_all('/<\/p>/', $content, $matches, PREG_OFFSET_CAPTURE);
     $pre = (isset($matches[0][1][1])) ? $matches[0][1][1] :
       (isset($matches[0][2][1])) ? $matches[0][2][1] :
-      (isset($matches[0][3][1])) ? $matches[0][3][1] : $pre;
+      (isset($matches[0][3][1])) ? $matches[0][3][1] : strpos($content, "</p>");
     if ($pre <> 4) {
-      $span_id = $block_delta.'_more';
+      $link_id = $block_delta.'_more';
       $div_id = $block_delta.'_collapse';
-      $show_all_link = '<span id="' . $span_id. '" class="span-like-link">More...</span>';
-      $content = ' <script type="text/javascript">                                         
-   jQuery(document).ready(function() {
-     jQuery("#' . $span_id . '").click(function() {
-       jQuery("#' . $div_id . '").toggle();
-       if (jQuery("#' . $span_id . '").html() !== "More...") {
-         jQuery("#' .$span_id . '").html("More...");
-       } else {
-         jQuery("#' .$span_id . '").html("Less...");
-       }
-     });
-   });
- </script> '."\n".
-        substr($content, 0, $pre) . "\n".
-        DRUPAL_BREAK . "\n".
-        $show_all_link.'<div id="' . $div_id . '" style="display:none">' .
-        substr($content, $pre).'</div> <!-- trick class -->';
+      $content_before_break = substr($content, 0, $pre);
+      $content_after_break = substr($content, $pre);
+      $retval = theme('block_with_teaser', array('content_before_break'=> $content_before_break,
+        'content_after_break' => $content_after_break,
+        'div_id' => $div_id,
+        'link_id' => $link_id,
+        ));
     }
-    $retval = $content;
   }
   return $retval;
 }
+
