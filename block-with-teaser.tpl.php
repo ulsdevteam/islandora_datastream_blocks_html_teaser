@@ -15,11 +15,13 @@
 ?>
     <script type="text/javascript">
       jQuery(document).ready(function() {
+      jQuery("#<?php print $div_id; ?>").hide();
+      jQuery("#<?php print $link_id; ?>").show();
       jQuery("#<?php print $link_id; ?>").click(function() {
         jQuery("#<?php print $div_id; ?>").toggle();
         if (jQuery("#<?php print $link_id; ?>").html() !== "Read more...") {
           jQuery("#<?php print $link_id; ?>").html("Read more...");
-        } else {
+         } else {
           jQuery("#<?php print $link_id; ?>").html("Show less...");
         }
       });
@@ -31,8 +33,8 @@
      * content_after_break contains the </div>, this section between is indented.
      */ ?>
     <!--break-->
-      <span id="<?php print $link_id; ?>" class="span-like-link">Read more...</span>
-      <div id="<?php print $div_id; ?>" style="display:none">
+      <span id="<?php print $link_id; ?>" class="span-like-link" style="display:none">Read more...</span>
+      <div id="<?php print $div_id; ?>">
         <?php print $content_after_break; ?>
     </div>
     <!-- block-with-teaser -->
