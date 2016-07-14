@@ -5,12 +5,11 @@
  */
 function islandora_datastream_blocks_html_teaser_block_view_alter(&$data, $block) {
   if ($block->module == 'islandora_datastream_blocks') {
-    // does the content have a <!--break--> in it already??  if not, insert after the first </p>
-    $item = menu_get_item();
+    $path = drupal_get_path('module', 'islandora_datastream_blocks_html_teaser');
+    drupal_add_css("$path/css/block_teaser.css");
     $block_id = substr($block->delta, 4);
+    $item = menu_get_item();
     if (isset($item['page_arguments'][0]) && is_object($item['page_arguments'][0]) && (get_class($item['page_arguments'][0]) == 'IslandoraFedoraObject')) {
-      $path = drupal_get_path('module', 'islandora_datastream_blocks_html_teaser');
-      drupal_add_css("$path/css/block_teaser.css");
       $fedora_object = $item['page_arguments'][0];
       // get the matching datastream - to protect against this datastream being the wrong mimetype
       if (is_object($fedora_object) && (isset($fedora_object[$block_id])) && ($fedora_object[$block_id]->mimetype == 'text/html') ) {
