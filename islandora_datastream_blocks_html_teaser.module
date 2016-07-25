@@ -5,8 +5,6 @@
  */
 function islandora_datastream_blocks_html_teaser_block_view_alter(&$data, $block) {
   if ($block->module == 'islandora_datastream_blocks') {
-    $path = drupal_get_path('module', 'islandora_datastream_blocks_html_teaser');
-    drupal_add_css("$path/css/block_teaser.css");
     $block_id = substr($block->delta, 4);
     $item = menu_get_item();
     if (isset($item['page_arguments'][0]) && is_object($item['page_arguments'][0]) && (get_class($item['page_arguments'][0]) == 'IslandoraFedoraObject')) {
