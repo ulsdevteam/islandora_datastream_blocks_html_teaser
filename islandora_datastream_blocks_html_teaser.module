@@ -41,8 +41,8 @@ function _insert_break_if_none($content, $block_delta) {
   if (strpos($content, '<!--break-->') < 1) {
     preg_match_all('/<\/p>/', $content, $matches, PREG_OFFSET_CAPTURE);
     $pre = (isset($matches[0][1][1])) ? $matches[0][1][1] :
-      (isset($matches[0][2][1])) ? $matches[0][2][1] :
-      (isset($matches[0][3][1])) ? $matches[0][3][1] : strpos($content, "</p>");
+      (array_key_exists(2, $matches[0]) &&  isset($matches[0][2][1])) ? $matches[0][2][1] :
+      (array_key_exists(3, $matches[0]) &&  isset($matches[0][3][1])) ? $matches[0][3][1] : strpos($content, "</p>");
   }
   else {
     $pre = strpos($content, '<!--break-->');
@@ -58,5 +58,10 @@ function _insert_break_if_none($content, $block_delta) {
       'link_id' => $link_id,
       ));
   }
-  return $retval;
+  if ($content_after_break) {
+    return $retval;
+  }
+  else {
+    return $content;
+  }
 }
