@@ -4,9 +4,8 @@ Allow any islandora datastream blocks that display HTML content to display a tea
 
 ## Install
 
-Since this requires that the islandora_datastream_block, as well as ckeditor modules are both installed, 
-this simply needs to be configured so that the toolbar button is enabled.  This is configured within
-the ckeditor profile options: `/admin/config/content/ckeditor/edit/Full`.
+Since this requires that the islandora_datastream_block, as well as the wysiwyg module to both installed, 
+this simply needs to be configured so that the toolbar button is enabled.
 
 ## Configuration
 
